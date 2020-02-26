@@ -1,5 +1,1 @@
-class Text{
-
-
-
-}
+final String mapApi="AIzaSyAPoC4q-c50eBvW50bJ13y6_e-Uxf052Eg";

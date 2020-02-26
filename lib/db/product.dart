@@ -1,14 +1,29 @@
+import 'package:bookify/model/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductService {
   Firestore _firestore = Firestore.instance;
-  String ref = 'products';
 
-  void uploadProduct(Map<String, dynamic> data) {
-    var id = Uuid();
-    String productId = id.v1();
-    data["id"] = productId;
-    _firestore.collection(ref).document(productId).setData(data);
+  String collection = 'products';
+  Future<List<Product>> getAllProducts()
+  {
+
+    String collection;
+    _firestore.collection(collection).getDocuments().then((snap){
+      List<Product> featuredProducts = [];
+      snap.documents.map((snapshot) => featuredProducts.add(Product.fromSnapshot(snapshot)));
+      return featuredProducts;
+    });
+  }
+  Future<List<Product>> getAllProductbyCategory(String category)
+  {
+
+    String collection;
+    _firestore.collection(collection).where("category",isEqualTo: category).getDocuments().then((snap){
+      List<Product> featuredProducts = [];
+      snap.documents.map((snapshot) => featuredProducts.add(Product.fromSnapshot(snapshot)));
+      return featuredProducts;
+    });
   }
 }

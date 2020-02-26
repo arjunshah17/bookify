@@ -1,11 +1,14 @@
 import 'dart:wasm';
 
 import 'package:bookify/Provider/product_provider.dart';
+import 'package:bookify/Provider/user_provider.dart';
 import 'package:bookify/screen/new_ad/AdScreen.dart';
+import 'package:bookify/utils/ThemeComponents.dart';
 import 'package:bookify/utils/categoryList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:place_picker/uuid.dart';
 import 'package:provider/provider.dart';
 class DetailPageView extends StatefulWidget {
   Function _function;
@@ -20,6 +23,7 @@ class _DetailPageViewState extends State<DetailPageView> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
     final product = Provider.of<ProductProvider>(context);
     return Container(
         padding: EdgeInsets.all(20),
@@ -70,32 +74,22 @@ minLines: 2,
 
       ],
     ),
-  
-     Expanded(
-
-       child: Align(
-
-        alignment: FractionalOffset.bottomCenter,
-        child: ButtonTheme(
-          height: 50,
-          minWidth: double.maxFinite,
-          child: FlatButton(
-shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-              child: Text("Next"),color: Theme.of(context).primaryColor,onPressed: (){
-
-            if (_fbKey.currentState.saveAndValidate()) {
-              product.product.name=_fbKey.currentState.value['name'];
-              product.product.description=_fbKey.currentState.value['description'];
-              product.product.price=double.parse(_fbKey.currentState.value['price']);
-              print(product);
-              widget._function.call();
-            }
 
 
-          },),
-        ),
-    ),
-     ),
+
+    ThemeComponents.bottomButton("Next",Theme.of(context).primaryColor,(){
+      if (_fbKey.currentState.saveAndValidate()) {
+        product.product.id=Uuid().generateV4();
+        product.product.userId=user.user.uid;
+        product.product.date=DateTime.now();
+        product.product.name=_fbKey.currentState.value['name'];
+        product.product.description=_fbKey.currentState.value['description'];
+        product.product.price=double.parse(_fbKey.currentState.value['price']);
+        print(product);
+        widget._function.call();
+      }
+    })
+
   ],
 
 ),

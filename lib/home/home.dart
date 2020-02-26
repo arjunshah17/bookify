@@ -1,3 +1,4 @@
+import 'package:bookify/screen/productListScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -38,8 +39,11 @@ class _HomeState extends State<Home> {
                 // pinned: true,
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.shopping_cart),
-                    onPressed: () {},
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+Navigator.pushNamed(context,ProductListScreen.screenName);
+
+                    },
                   )
                 ],
                 // Allows the user to reveal the app bar if they begin scrolling

@@ -3,6 +3,7 @@ import 'package:bookify/model/product.dart';
 import 'package:bookify/screen/new_ad/categoryPageView.dart';
 import 'package:bookify/screen/new_ad/detailsPageView.dart';
 import 'package:bookify/screen/new_ad/imagePageView.dart';
+import 'package:bookify/screen/new_ad/locationPageView.dart';
 import 'package:bookify/utils/enum.dart';
 
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _AdScreenState extends State<AdScreen> {
 
     return MultiProvider(
 
-      providers:[  ChangeNotifierProvider.value(value: ProductProvider.init())],
+      providers:[  ChangeNotifierProvider.value(value: ProductProvider.init(context))],
 
       child: Scaffold(
 
@@ -56,7 +57,14 @@ _controller.animateToPage(AdScreenPos.images.index,duration: Duration(millisecon
 
             }),
 
-        ImagePageView(),
+        ImagePageView((){
+          _controller.animateToPage(AdScreenPos.location.index,duration: Duration(milliseconds: 200),curve: Curves.ease);
+        }),
+
+
+           LocationPageView((){
+              _controller.animateToPage(AdScreenPos.images.index,duration: Duration(milliseconds: 200),curve: Curves.ease);
+            }),
           ],
         ),
 
