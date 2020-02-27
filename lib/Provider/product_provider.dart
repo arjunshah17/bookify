@@ -56,21 +56,32 @@ Navigator.of(_context).pop();
   }
 
   Future<void> _uploadProductImage() async {
-
+   String coverUrl;
   for(int i=0;i<product.image.length;i++)
     {
       Map urlMap = HashMap<String,Object>();
-      urlMap["url"]=product.image[i];
-       _firestore.collection("products").document(product.id).collection(
-          "images").document(product.image[i]).setData(urlMap);
-      ByteData data= await product.imageTemp[i].getByteData(quality: 50);
+
+      ByteData data= await product.imageTemp[i].getByteData(quality: 30);
       final StorageReference storageReference = FirebaseStorage().ref().child(product.image[i]);
       final StorageUploadTask uploadTask = storageReference.putData(data.buffer.asUint8List());
-      
-      await uploadTask.onComplete;
+
+      var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+      urlMap["url"]=dowurl.toString();
+      if(i==0)
+        {
+          coverUrl=dowurl.toString();
+          Map map = HashMap<String,Object>();
+          map["coverImage"]=coverUrl;
+
+          _firestore.collection("products").document(product.id).updateData(map);
+        }
+
+      _firestore.collection("products").document(urlMap["url"]=dowurl.toString()).collection(
+          "images").document(product.image[i]).setData(urlMap);
       state=Status.sended;
       notifyListeners();
       Navigator.of(_context).pop();
+
     }
 
 
