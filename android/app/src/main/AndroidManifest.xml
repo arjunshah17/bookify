@@ -13,10 +13,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="bookify"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCvvCoN8FrTLggbpZGrIiV8vxYORMnFi9g"/>
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAPoC4q-c50eBvW50bJ13y6_e-Uxf052Eg" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

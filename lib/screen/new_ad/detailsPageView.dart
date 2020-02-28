@@ -5,6 +5,7 @@ import 'package:bookify/Provider/user_provider.dart';
 import 'package:bookify/screen/new_ad/AdScreen.dart';
 import 'package:bookify/utils/ThemeComponents.dart';
 import 'package:bookify/utils/categoryList.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -81,7 +82,7 @@ minLines: 2,
       if (_fbKey.currentState.saveAndValidate()) {
         product.product.id=Uuid().generateV4();
         product.product.userId=user.user.uid;
-        product.product.date=DateTime.now();
+        product.product.date=Timestamp.now();
         product.product.name=_fbKey.currentState.value['name'];
         product.product.description=_fbKey.currentState.value['description'];
         product.product.price=double.parse(_fbKey.currentState.value['price']);

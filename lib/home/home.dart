@@ -1,6 +1,13 @@
+import 'package:bookify/model/product.dart';
+import 'package:bookify/screen/product/product_detail.dart';
 import 'package:bookify/screen/productListScreen.dart';
+import 'package:bookify/utils/categoryList.dart';
+import 'package:bookify/widget/loading.dart';
+import 'package:bookify/widget/mainui_customcard.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 import 'drawer.dart';
@@ -12,6 +19,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isExpanded = false;
+  double _height;
+  double _width;
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
     'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -22,6 +32,8 @@ class _HomeState extends State<Home> {
   ];
   @override
   Widget build(BuildContext context) {
+    _height = MediaQuery.of(context).size.height;
+    _width = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: Drawer(
         child: AppDrawer(),
@@ -62,172 +74,52 @@ Navigator.pushNamed(context,ProductListScreen.screenName);
                   (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding:
-                            EdgeInsets.only(top: 14.0, left: 8.0, right: 8.0),
-                        child: Text(
-                          'NEW_ARRIVALS',
-                            style: TextStyle(
-                                color: Theme.of(context).accentColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700)),
-                      ),
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 8.0),
-                        height: 240.0,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: imgList.map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                  width: 140.0,
-                                  child: Card(
-                                    clipBehavior: Clip.antiAlias,
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/products',
-                                            arguments: i);
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          SizedBox(
-                                            height: 160,
-                                            child: Hero(
-                                              tag: '$i',
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.cover,
-                                                imageUrl: i,
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                        child:
-                                                            CircularProgressIndicator()),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        new Icon(Icons.error),
-                                              ),
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: Text(
-                                              'Two Gold Rings',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                            subtitle: Text('\$200',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .accentColor,
-                                                    fontWeight:
-                                                        FontWeight.w700)),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      Container(
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(top: 6.0, left: 8.0, right: 8.0),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/banner-1.png'),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 8.0, left: 8.0, right: 8.0),
-                            child: Text('Shop By Category',
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Shop for',
                                 style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 8.0, top: 8.0, left: 8.0),
-                            child: RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                child: Text('View All',
-                                    style: TextStyle(color: Colors.white)),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/categorise');
-                                }),
-                          )
-                        ],
-                      ),
-                      Container(
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          padding: EdgeInsets.only(
-                              top: 8, left: 6, right: 6, bottom: 12),
-                          children: List.generate(4, (index) {
-                            return Container(
-                              child: Card(
-                                clipBehavior: Clip.antiAlias,
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Card tapped.');
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height:
-                                            (MediaQuery.of(context).size.width /
-                                                    2) -
-                                                70,
-                                        width: double.infinity,
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          imageUrl: imgList[index],
-                                          placeholder: (context, url) => Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              new Icon(Icons.error),
-                                        ),
-                                      ),
-                                      ListTile(
-                                          title: Text(
-                                        'Two Gold Rings',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ))
-                                    ],
+                                    fontSize: 16)),
+                            GestureDetector(
+                                onTap: _expand,
+                                child: Text(
+                                  isExpanded ? "Show less" : "Show all",
+                                  style: TextStyle(
+                                    color: Colors.orange[200],
                                   ),
-                                ),
-                              ),
-                            );
-                          }),
+                                )),
+                            //IconButton(icon: isExpanded? Icon(Icons.arrow_drop_up, color: Colors.orange[200],) : Icon(Icons.arrow_drop_down, color: Colors.orange[200],), onPressed: _expand)
+                          ],
                         ),
                       ),
+                      expandList(),
+                Divider(),
+                      Divider(),
                       Container(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 6.0, left: 8.0, right: 8.0, bottom: 10),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/banner-2.png'),
-                          ),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Trending",
+                                style: TextStyle(
+                                    fontSize: 16)),
+                            GestureDetector(
+                                onTap: () {
+                                  // Navigator.of(context).pushNamed(TRENDING_UI);
+                                  print('Showing all');
+                                },
+                                child: Text(
+                                  'Show all',
+                                  style: TextStyle(
+                                    color: Colors.orange[300],
+                                  ),
+                                ))
+                          ],
                         ),
-                      )
+                      ),
+                      trendingProducts(),Divider()
                     ],
                   ),
                   // Builds 1000 ListTiles
@@ -237,5 +129,93 @@ Navigator.pushNamed(context,ProductListScreen.screenName);
             ]),
       ),
     );
+  }
+
+  Widget trendingProducts() {
+    return Container(
+      height: _height / 4.25,
+      //width: MediaQuery.of(context).size.width,
+      child:  StreamBuilder<QuerySnapshot>(
+        stream:Firestore.instance.collection('products').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError)
+            return new Text('Error: ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting: return new Loading();
+            default:
+              return new ListView(
+                shrinkWrap: true,
+
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.all(5),
+                children: snapshot.data.documents.map((DocumentSnapshot document) {
+                  Product product=Product.fromSnapshot(document);
+                  return  _buildRecommendationsEntries(context,product);
+                }).toList(),
+              );
+          }
+        },
+      ),
+    );
+  }
+  Widget _buildRecommendationsEntries(BuildContext context,Product listItem) {
+    return GestureDetector(
+onTap: (){
+  Navigator.pushNamed(context, ProductDetails.screenName,arguments: listItem);
+},
+      child: CustomCard(
+
+        title: '${listItem.name}',
+        category: '${listItem.category}',
+        price: "${NumberFormat.currency(symbol: "₹",decimalDigits: 0).format(listItem.price)}",
+        dateAdded: "${DateFormat('yyyy-MM-dd').format( listItem.date.toDate())}",
+        description: "${listItem.description}",
+        image: "${listItem.coverImage}",
+        location:listItem.area!=null?"${listItem.area}":"sarkhej,ahmedabad",
+      ),
+    );
+  }
+  Widget expandList() {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: GridView.builder(
+          itemCount:Category.list.length,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+          itemBuilder: (BuildContext c,int i){
+            return InkWell(
+              onTap: (){
+
+              },
+              child: Column(children: <Widget>[
+                Image.asset(
+                  Category.list[i].icon,
+                  height: _height / 12,
+                  width: _width / 12,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Flexible(
+                  child: Text(
+                    Category.list[i].title,
+                    style: TextStyle( fontSize: 13),
+                  ),
+                )
+              ],),
+            );
+      },
+
+
+        ),
+
+
+    );
+  }
+  void _expand() {
+    setState(() {
+      isExpanded ? isExpanded = false : isExpanded = true;
+    });
   }
 }

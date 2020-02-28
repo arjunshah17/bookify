@@ -26,4 +26,15 @@ class ProductService {
       return featuredProducts;
     });
   }
+
+  Future<List<String>> getProductImages(String id)
+  {
+
+    String collection;
+    _firestore.collection(collection).document(id).collection("images").getDocuments().then((snap){
+      List<String> featuredProducts = [];
+      snap.documents.map((snapshot) => featuredProducts.add(snapshot.documentID.toString()));
+      return featuredProducts;
+    });
+  }
 }

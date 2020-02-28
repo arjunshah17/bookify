@@ -16,6 +16,8 @@ class Product{
 
   static const LOCATION = "location";
   static const USERID = "userId";
+  static const FORMATEDADDRESS="formatedAddress";
+  static const AREA="Area";
 
   static const DESCRIPTION = "description";
 
@@ -23,9 +25,12 @@ String _id,_name,_description,category,userId,coverImage;
 
 double _price;
 LocationResult locationResult;
+String address;
+String area;
 List<String> _image =List<String>();
 List<Asset> imageTemp =List<Asset>();
-DateTime date;
+Timestamp date;
+
 Product(this._id, this._name, this._description, this._price, this._image);
 Product.empty();
 List<String> get image => _image;
@@ -63,12 +68,13 @@ set id(String value) {
   Map data = HashMap<String,Object>();
   data[ID]=_id;
   data[USERID]=userId;
-  data[NAME]=_name;
+  data[NAME]=_name.toLowerCase();
   data[CATEGORY]=category;
   data[DESCRIPTION]=_description;
   data[COVERIMAGE]=coverImage;
   data[PRICE]=_price;
   data[DATE]=date;
+  data[FORMATEDADDRESS]=address;
 
 
 return data;
@@ -82,8 +88,12 @@ return data;
     userId=data[USERID];
     _name=data[NAME];
     category=data[CATEGORY];
+  address=data[FORMATEDADDRESS];
+  date=data[DATE];
+  area=data[AREA];
    _description= data[DESCRIPTION];
     coverImage=data[COVERIMAGE];
+    _price=double.parse(data[PRICE].toString());
 
 
   }

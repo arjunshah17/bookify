@@ -8,6 +8,7 @@ import 'package:bookify/utils/string.dart';
 import 'package:bookify/widget/loading.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:place_picker/place_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
@@ -21,58 +22,85 @@ class LocationPageView extends StatefulWidget {
 }
 
 class _LocationPageViewState extends State<LocationPageView> {
+  TextEditingController addressController;
+  TextEditingController areaController;
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
     final product = Provider.of<ProductProvider>(context);
     return product.state==Status.sending?Loading(): Container(
       margin: EdgeInsets.only(top: 2),
       padding: EdgeInsets.all(10),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
+      child: Form(
+        key:_fbKey ,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
 
-        children: <Widget>[
-          Card(
+          children: <Widget>[
+            Card(
 
-            borderOnForeground: true,
-            child:   ListTile(
-              contentPadding: EdgeInsets.all(10),
-              title:Text("location"),
-            subtitle: Text("thaltej ahmedabad"),
+              borderOnForeground: true,
+              child:   ListTile(
+                contentPadding: EdgeInsets.all(10),
+                title:Text("location"),
+              subtitle: Text("sharkej, ahmedabad"),
 
-            trailing: IconButton(icon: Icon(Icons.arrow_forward),
-            onPressed:()async{
+              trailing: IconButton(icon: Icon(Icons.arrow_forward),
+              onPressed:()async{
 
-             LocationResult result= await showPlacePicker();
-             if(result!=null)
-               product.product.locationResult=result;
-                 else {
-                   product.product.locationResult=LocationResult();
-               product.product.locationResult.name = "maple country 2";
-               product.product.locationResult.formattedAddress =
-               "thaltej shilaj road";
-             }
+               LocationResult result= await showPlacePicker();
+
+                 product.product.locationResult=result;
+
+
+                     product.product.locationResult=LocationResult();
+
+                     product.product.address="Lj institute of Engineering and Technology near kataria motors";
+                     product.product.area="sarkhej,ahmedabad";
+                     setState(() {
+                       addressController.text=product.product.address;
+                       areaController.text=product.product.area;
+                     });
+
 product.notifyListeners();
-              },),
+                },),
 
+              ),
             ),
-          )
-,Text(product.product.toMap().toString()),
-         ThemeComponents.bottomButton("Post Now", Theme.of(context).primaryColor,(){
+            SizedBox(height: 10,),
+TextFormField(
+  controller: addressController,
+  decoration: InputDecoration(labelText: "address",hintText: "enter address", border: OutlineInputBorder(),),
+validator:FormBuilderValidators.required() ,
 
-          if(product.product.locationResult!=null)
-            {
-              product.uploadData();
-            }
-          else
-            {
+),
+            SizedBox(height: 10,),
+            TextFormField(
+              controller: areaController,
+
+              decoration: InputDecoration(labelText: "area",hintText: "enter area", border: OutlineInputBorder(),),
+              validator:FormBuilderValidators.required() ,
+
+            )
+,
+           ThemeComponents.bottomButton("Post Now", Theme.of(context).primaryColor,(){
+
+            if(product.product.locationResult!=null)
+              {
+
+                product.uploadData();
+              }
+            else
+              {
 ThemeComponents.showSnackBar(context, "select location");
-            }
+              }
 
 
-         })
+           })
 
-        ],
+          ],
 
+        ),
       ),
     );
   }

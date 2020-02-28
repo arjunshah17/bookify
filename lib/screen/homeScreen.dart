@@ -15,7 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double _height;
+  double _width;
   int _currentIndex = 0;
+
   PageController _pageController;
 
   @override
@@ -64,6 +67,8 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    _height = MediaQuery.of(context).size.height;
+    _width = MediaQuery.of(context).size.width;
     final user = Provider.of<UserProvider>(context);
     return Scaffold(
 
@@ -92,31 +97,9 @@ class _HomePageState extends State<HomePage> {
         label: Text("Post AD", textAlign: TextAlign.center,style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavyBar(
-
-        selectedIndex: _currentIndex,
-        onItemSelected: (index) {
-          setState(() => _currentIndex = index);
-          _pageController.jumpToPage(index);
-        },
-        items: <BottomNavyBarItem>[
-          BottomNavyBarItem(
-              title: Text('Home'),
-              icon: Icon(Icons.home)
-          ),
-          BottomNavyBarItem(
-              title: Text('Chats'),
-              icon: Icon(Icons.chat_bubble)
-          ),
-
-
-          BottomNavyBarItem(
-              title: Text('Profile'),
-              icon: Icon(Icons.account_circle)
-          ),
-        ],
-
-      ),
+      bottomNavigationBar:_bottomNavBar(),
     );
   }
+
+
 }

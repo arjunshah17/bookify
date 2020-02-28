@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "966917992928",
-    "firebase_url": "https://bookify-45f5f.firebaseio.com",
-    "project_id": "bookify-45f5f",
-    "storage_bucket": "bookify-45f5f.appspot.com"
+    "project_number": "74049752887",
+    "firebase_url": "https://bookify-282fe.firebaseio.com",
+    "project_id": "bookify-282fe",
+    "storage_bucket": "bookify-282fe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:966917992928:android:c58da0f2d0fc552a5e3b85",
+        "mobilesdk_app_id": "1:74049752887:android:b24b40c32cc1c0de7a54b2",
         "android_client_info": {
-          "package_name": "techquich.bookify"
+          "package_name": "techquich.book"
         }
       },
       "oauth_client": [
         {
-          "client_id": "966917992928-03gq3m0kkc1qosir98crf77edurad6po.apps.googleusercontent.com",
+          "client_id": "74049752887-uhgogoj1p4a9gfgjjti7rs5cfj00i1hv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "techquich.book",
+            "certificate_hash": "ae27828a36092c01d311ca120ee23daedd8d288d"
+          }
+        },
+        {
+          "client_id": "74049752887-kqau76ls9tm3mlilsudh4v7cbejij2js.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGL6uEfF9e7Cjtsm1gCdNDr6zLX8dIVRc"
+          "current_key": "AIzaSyCvvCoN8FrTLggbpZGrIiV8vxYORMnFi9g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "966917992928-03gq3m0kkc1qosir98crf77edurad6po.apps.googleusercontent.com",
+              "client_id": "74049752887-kqau76ls9tm3mlilsudh4v7cbejij2js.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

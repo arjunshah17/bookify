@@ -2,7 +2,9 @@ import 'package:bookify/home/home.dart';
 import 'package:bookify/screen/homeScreen.dart';
 import 'package:bookify/screen/login.dart';
 import 'package:bookify/screen/new_ad/AdScreen.dart';
+import 'package:bookify/screen/product/product_detail.dart';
 import 'package:bookify/screen/productListScreen.dart';
+import 'package:bookify/screen/profile/ProfilePage.dart';
 import 'package:bookify/screen/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +23,7 @@ void main() {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: Colors.orange[200],
-                accentColor: Colors.purpleAccent[200]
+                accentColor: Colors.purple[300]
 
         ),
        initialRoute: '/',
@@ -32,6 +34,8 @@ void main() {
 
           SignUp.screenName:(BuildContext context)=>SignUp(),
           ProductListScreen.screenName:(BuildContext c)=>ProductListScreen(),
+          ProductDetails.screenName:(BuildContext c)=>ProductDetails(),
+          ProfilePage.screenName:(BuildContext c)=>ProfilePage()
       },
       )));
 }

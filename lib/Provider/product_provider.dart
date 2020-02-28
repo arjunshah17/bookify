@@ -30,7 +30,7 @@ ProductProvider.init(BuildContext context)
    for(int i=0;i<product.imageTemp.length;i++)
      {
 
-       product.image.add("products/${product.id}/${Uuid().generateV4()}");
+       product.image.add("${Uuid().generateV4()}");
 
      }
    product.coverImage=product.image[0];
@@ -61,7 +61,7 @@ Navigator.of(_context).pop();
     {
       Map urlMap = HashMap<String,Object>();
 
-      ByteData data= await product.imageTemp[i].getByteData(quality: 30);
+      ByteData data= await product.imageTemp[i].getByteData(quality: 10);
       final StorageReference storageReference = FirebaseStorage().ref().child(product.image[i]);
       final StorageUploadTask uploadTask = storageReference.putData(data.buffer.asUint8List());
 
@@ -73,17 +73,18 @@ Navigator.of(_context).pop();
           Map map = HashMap<String,Object>();
           map["coverImage"]=coverUrl;
 
-          _firestore.collection("products").document(product.id).updateData(map);
+        await  _firestore.collection("products").document(product.id).updateData(map);
         }
 
-      _firestore.collection("products").document(urlMap["url"]=dowurl.toString()).collection(
+     await  _firestore.collection("products").document(product.id).collection(
           "images").document(product.image[i]).setData(urlMap);
-      state=Status.sended;
-      notifyListeners();
-      Navigator.of(_context).pop();
+
+
 
     }
-
+   state=Status.sended;
+   notifyListeners();
+   Navigator.of(_context).pop();
 
 
 

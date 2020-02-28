@@ -1,4 +1,5 @@
 import 'package:bookify/Provider/user_provider.dart';
+import 'package:bookify/screen/profile/ProfilePage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -43,14 +44,14 @@ class _AppDrawerState extends State<AppDrawer> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.shopping_basket,
+                leading: Icon(Icons.account_circle,
                     color: Theme.of(context).accentColor),
-                title: Text('Shop'),
+                title: Text('Profile'),
                 trailing: Text('New',
                     style: TextStyle(color: Theme.of(context).primaryColor)),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/shop');
+                  Navigator.pushNamed(context, ProfilePage.screenName);
                 },
               ),
               ListTile(
